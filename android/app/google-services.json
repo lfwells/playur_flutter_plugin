@@ -1,0 +1,298 @@
+{
+  "project_info": {
+    "project_number": "901745155949",
+    "project_id": "grgplatform",
+    "storage_bucket": "grgplatform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:0c938d167b10c534b3c464",
+        "android_client_info": {
+          "package_name": "au.edu.utas.a2023week5tutorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:325717ce6c666b82b3c464",
+        "android_client_info": {
+          "package_name": "au.edu.utas.kit305.tutorial05"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:b4228f9221cb145ab3c464",
+        "android_client_info": {
+          "package_name": "au.edu.utas.kit305.tutorial5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:f93ef4e96423d35db3c464",
+        "android_client_info": {
+          "package_name": "au.edu.utas.lfwells.tutorial3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:db454f054807c8a2b3c464",
+        "android_client_info": {
+          "package_name": "com.example.flutter_tutorial_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:11a6f1a289f1a74fb3c464",
+        "android_client_info": {
+          "package_name": "com.example.playur_flutter_plugin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:f75bfcfc05dac3a0b3c464",
+        "android_client_info": {
+          "package_name": "com.example.tutorial13"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901745155949:android:6aec4641c43bc362b3c464",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf2zNovFnrKUkAGrZZw1-wVgcoqX2ZfOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901745155949-8jth5lfonp1ntqpm63evv7ujm0bpneho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901745155949-abhdja0v618vr4l8jeu10e0ur1oguc4u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "au.edu.utas.tutorial8test"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
