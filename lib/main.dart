@@ -43,17 +43,32 @@ class PlayURSample extends StatelessWidget {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Consumer<PlayURProvider>(
-                  builder: (context, playUR, _) {
-                    return Text(playUR.getStringParam("MessageToUser"));
-                  },
-                )
+              children: const <Widget>[
+                PlayURParameterText(parameter: "MessageToUser",)
               ],
             ),
           )
         ),
       ),
+    );
+  }
+}
+
+class PlayURParameterText extends StatelessWidget {
+  const PlayURParameterText({
+    Key? key, required this.parameter, this.notReadyWidget,
+  }) : super(key: key);
+
+  final String parameter;
+  final Widget? notReadyWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PlayURProvider>(
+      builder: (context, playUR, _) {
+        if (!playUR.hasConfiguration) return notReadyWidget ?? Container();
+        return Text(playUR.getStringParam(parameter));
+      },
     );
   }
 }
