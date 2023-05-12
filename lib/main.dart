@@ -34,22 +34,22 @@ class PlayURSample extends StatelessWidget {
           title: const Text('PlayUR Sample'),
         ),
         body: Consumer<PlayURProvider>(
-          builder: (context, playur, _) {
-            if (playur.loggedIn == false) {
-              return PlayURLoginScreen();
+          builder: (context, playUR, child) {
+            if (playUR.loggedIn == false) {
+              return const PlayURLoginScreen();
             }
-
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    'PlayUR Sample',
-                  ),
-                ],
-              ),
-            );
-          }
+            return child!;
+          },
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                Text(
+                  'PlayUR Sample',
+                ),
+              ],
+            ),
+          )
         ),
       ),
     );
