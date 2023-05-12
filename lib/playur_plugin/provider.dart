@@ -212,6 +212,22 @@ class PlayURProvider extends ChangeNotifier
     notifyListeners();
   }
 
+  Future waitForLogin() async
+  {
+    while(!loggedIn)
+    {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
+  Future waitForConfiguration() async
+  {
+    await waitForLogin();
+    while(!hasConfiguration)
+    {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
+
   //TODO: docs
   bool paramExists(String key)
   {
@@ -264,7 +280,6 @@ class PlayURProvider extends ChangeNotifier
   /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
   String getStringParam(String key, { String? defaultValue, bool warn = true })
   {
-    print(key);
     return getParam(key, defaultValue: defaultValue, warn: warn);
   }
 

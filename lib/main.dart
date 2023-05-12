@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/login.dart';
 import 'package:playur_flutter_plugin/playur_plugin/provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(const MyApp());
@@ -44,12 +45,69 @@ class PlayURSample extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
-                PlayURParameterText(parameter: "MessageToUser",)
+                PlayURParameterText(parameter: "MessageToUser",),
+                PlayURRandomParameterSample(parameter: "Test")
               ],
             ),
           )
         ),
       ),
+    );
+  }
+}
+
+class PlayURRandomParameterSample extends StatefulWidget {
+  const PlayURRandomParameterSample({
+    Key? key, required this.parameter, this.notReadyWidget,
+  }) : super(key: key);
+
+  final String parameter;
+  final Widget? notReadyWidget;
+
+  @override
+  State<PlayURRandomParameterSample> createState() => _PlayURRandomParameterSampleState();
+}
+
+class _PlayURRandomParameterSampleState extends State<PlayURRandomParameterSample>
+{
+  String current = "loading";
+
+  @override
+  void initState() {
+    super.initState();
+    next();
+  }
+
+  Future next() async
+  {
+    var playUR = Provider.of<PlayURProvider>(context, listen: false);
+    await playUR.waitForConfiguration();
+
+    var list = playUR.getStringParamList(widget.parameter);
+    setState(() {
+      //set current to a random item from list
+      current = list[math.Random().nextInt(list.length)];
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context)
+  {
+    return Consumer<PlayURProvider>(
+      builder: (context, playUR, _)
+      {
+        if (!playUR.hasConfiguration) return widget.notReadyWidget ?? Container();
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: next, child: const Text("Next Random Val")),
+            Container(width:8),
+            Text(current),
+          ],
+        );
+      }
     );
   }
 }
