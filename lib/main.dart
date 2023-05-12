@@ -43,10 +43,12 @@ class PlayURSample extends StatelessWidget {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Text(
-                  'PlayUR Sample',
-                ),
+              children: <Widget>[
+                Consumer<PlayURProvider>(
+                  builder: (context, playUR, _) {
+                    return Text(playUR.getStringParam("MessageToUser"));
+                  },
+                )
               ],
             ),
           )

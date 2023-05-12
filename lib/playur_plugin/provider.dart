@@ -212,5 +212,250 @@ class PlayURProvider extends ChangeNotifier
     notifyListeners();
   }
 
+  //TODO: docs
+  bool paramExists(String key)
+  {
+    if (!hasConfiguration)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw ConfigurationNotReadyException();
+    }
+    return configuration.parameters.containsKey(key);
+  }
+
+  /// <summary>
+  /// Obtains a value of a parameter defined in the <see cref="Configuration"/>. This is the base-level function intended to be internal.
+  /// All parameters are initially obtained as strings and must be converted to their type.
+  /// </summary>
+  /// <param name="key">The key matching the parameter name set on the back-end</param>
+  /// <returns>The value of the requested parameter if it exists</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if <see cref="Configuration"/> is not previously obtained</exception>
+  /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
+  String getParam(String key, { String? defaultValue, bool warn = true })
+  {
+    if (!hasConfiguration)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw ConfigurationNotReadyException();
+    }
+
+    if (!paramExists(key))
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      if (defaultValue != null)
+      {
+        return defaultValue;
+      }
+      //TODO: exceptions
+      throw Exception("ParameterNotFoundException");
+      //throw new ParameterNotFoundException(key);
+    }
+    return configuration.parameters[key];
+  }
+
+  /// <summary>
+  /// Obtains a string value of a parameter defined in the <see cref="Configuration"/> in string form.
+  /// </summary>
+  /// <param name="key">The key matching the parameter name set on the back-end</param>
+  /// <returns>The string value of the requested parameter if it exists</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if <see cref="Configuration"/> is not previously obtained</exception>
+  /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
+  String getStringParam(String key, { String? defaultValue, bool warn = true })
+  {
+    return getParam(key, defaultValue: defaultValue, warn: warn);
+  }
+
+  /// <summary>
+  /// Obtains the value of a parameter defined in the <see cref="Configuration"/> in integer form.
+  /// </summary>
+  /// <param name="key">The key matching the parameter name set on the back-end</param>
+  /// <returns>The integer value of the requested parameter if it exists</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if <see cref="Configuration"/> is not previously obtained</exception>
+  /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
+  /// <exception cref="InvalidParamFormatException">thrown if the parameter was unable to be converted to an integer</exception>
+  int getIntParam(String key, { int? defaultValue, bool warn = true })
+  {
+    var str = getParam(key, defaultValue: defaultValue?.toString(), warn: warn);
+    var result = int.tryParse(str);
+    if (result != null)
+    {
+      return result;
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("InvalidParamFormatException");
+    //throw new InvalidParamFormatException(key, typeof(int));
+  }
+
+  /// <summary>
+  /// Obtains the value of a parameter defined in the <see cref="Configuration"/> in double form.
+  /// </summary>
+  /// <param name="key">The key matching the parameter name set on the back-end</param>
+  /// <returns>The float value of the requested parameter if it exists</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if <see cref="Configuration"/> is not previously obtained</exception>
+  /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
+  /// <exception cref="InvalidParamFormatException">thrown if the parameter was unable to be converted to a float</exception>
+  double getDoubleParam(String key, { double? defaultValue, bool warn = true })
+  {
+    var str = getParam(key, defaultValue: defaultValue?.toString(), warn: warn);
+    var result = double.tryParse(str);
+    if (result != null)
+    {
+      return result;
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("InvalidParamFormatException");
+    //throw new InvalidParamFormatException(key, typeof(double));
+  }
+
+
+  /// <summary>
+  /// Obtains an integer value of a parameter defined in the <see cref="Configuration"/> in string form.
+  /// Uses whatever logic <see cref="bool.TryParse(string, out bool)" /> uses to convert to bool.
+  /// </summary>
+  /// <param name="key">The key matching the parameter name set on the back-end</param>
+  /// <returns>The boolean value of the requested parameter if it exists</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if <see cref="Configuration"/> is not previously obtained</exception>
+  /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
+  /// <exception cref="InvalidParamFormatException">thrown if the parameter was unable to be converted to a boolean</exception>
+  bool getBoolParam(String key, { bool? defaultValue, bool warn = true })
+  {
+    var str = getParam(key, defaultValue: defaultValue?.toString(), warn: warn);
+    var result = str == "true" ? true : str == "false" ? false : null;
+    if (result != null)
+    {
+      return result;
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("InvalidParamFormatException");
+    //throw new InvalidParamFormatException(key, typeof(int));
+  }
+
+  //now all of these again but array versions
+  static const String PARAM_LIST_SPLIT_DELIMITER = "|||";
+  static const String PARAM_LIST_KEY_APPEND = "[]";
+
+  //TODO: docs
+  List<String> getStringParamList(String key, { List<String>? defaultValue, bool warn = true })
+  {
+    if (paramExists(key))
+    {
+      String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
+      return unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("ParameterNotFoundException");
+    //throw new ParameterNotFoundException(key);
+  }
+
+  //TODO: docs
+  List<int> getIntParamList(String key, { List<int>? defaultValue, bool warn = true })
+  {
+    if (paramExists(key))
+    {
+      String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
+      List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
+      try
+      {
+        return split.map((e) => int.parse(e)).toList();
+      }
+      catch (e)
+      {
+        //TODO: exceptions
+        throw Exception("InvalidParamFormatException");
+        //throw new InvalidParamFormatException(key, typeof(int));
+      }
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("ParameterNotFoundException");
+    //throw new ParameterNotFoundException(key);
+  }
+
+  //TODO: docs
+  List<double> getDoubleParamList(String key, { List<double>? defaultValue, bool warn = true })
+  {
+    if (paramExists(key))
+    {
+      String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
+      List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
+      try
+      {
+        return split.map((e) => double.parse(e)).toList();
+      }
+      catch (e)
+      {
+        //TODO: exceptions
+        throw Exception("InvalidParamFormatException");
+        //throw new InvalidParamFormatException(key, typeof(int));
+      }
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("ParameterNotFoundException");
+    //throw new ParameterNotFoundException(key);
+  }
+
+  //TODO: docs
+  List<bool> getBoolParamList(String key, { List<bool>? defaultValue, bool warn = true })
+  {
+    if (paramExists(key))
+    {
+      String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
+      List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
+      return split.map((str) => str == "true").toList();
+    }
+
+    if (defaultValue != null)
+    {
+      if (warn) PlayURPluginLogger.warn("Tried to get value for $key but was not set. Defaulting to $defaultValue");
+      return defaultValue;
+    }
+
+    //TODO: exceptions
+    throw Exception("ParameterNotFoundException");
+    //throw new ParameterNotFoundException(key);
+  }
 
 }
