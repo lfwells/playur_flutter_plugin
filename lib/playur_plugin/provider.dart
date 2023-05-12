@@ -264,6 +264,7 @@ class PlayURProvider extends ChangeNotifier
   /// <exception cref="ParameterNotFoundException">thrown if no parameter with that name present in the <see cref="Configuration"/></exception>
   String getStringParam(String key, { String? defaultValue, bool warn = true })
   {
+    print(key);
     return getParam(key, defaultValue: defaultValue, warn: warn);
   }
 
@@ -360,7 +361,7 @@ class PlayURProvider extends ChangeNotifier
   //TODO: docs
   List<String> getStringParamList(String key, { List<String>? defaultValue, bool warn = true })
   {
-    if (paramExists(key))
+    if (paramExists(key + PARAM_LIST_KEY_APPEND))
     {
       String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
       return unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
@@ -380,7 +381,7 @@ class PlayURProvider extends ChangeNotifier
   //TODO: docs
   List<int> getIntParamList(String key, { List<int>? defaultValue, bool warn = true })
   {
-    if (paramExists(key))
+    if (paramExists(key + PARAM_LIST_KEY_APPEND))
     {
       String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
       List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
@@ -410,7 +411,7 @@ class PlayURProvider extends ChangeNotifier
   //TODO: docs
   List<double> getDoubleParamList(String key, { List<double>? defaultValue, bool warn = true })
   {
-    if (paramExists(key))
+    if (paramExists(key + PARAM_LIST_KEY_APPEND))
     {
       String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
       List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
@@ -440,7 +441,7 @@ class PlayURProvider extends ChangeNotifier
   //TODO: docs
   List<bool> getBoolParamList(String key, { List<bool>? defaultValue, bool warn = true })
   {
-    if (paramExists(key))
+    if (paramExists(key + PARAM_LIST_KEY_APPEND))
     {
       String unSplit = getStringParam(key + PARAM_LIST_KEY_APPEND);
       List<String> split = unSplit.split(PARAM_LIST_SPLIT_DELIMITER);
