@@ -219,10 +219,20 @@ class PlayURAPI
       throw Exception("PlayURProvider not found in context. Make sure you have a PlayURProvider widget in your widget tree.");
     }
 
+    return getWWWFormWithProvider(provider);
+  }
+  /// <summary>
+  /// Helper function for building the <c>form</c> paramaters to the <see cref="Rest"/> class functions.
+  /// Use this because it will automatically populate with the userID (from <see cref="PlayURPlugin.instance.user.id" />)
+  /// and gameID (from <see cref="PlayURPlugin.instance.gameID"/>).
+  /// Uses the terminology "WWWForm" because this class previously used <see cref="WWWForm"/> objects.
+  /// </summary>
+  /// <returns>A new Dictionary suitable for use as a <c>form parameter</c>.</returns>
+  static Map<String, String> getWWWFormWithProvider(PlayURProvider provider)
+  {
     var form = <String, String>{};
 
-    // TODO: handle currently logged in user
-    //if (PlayURPlugin.instance.user != null) form.Add("userID", PlayURPlugin.instance.user.id.ToString());
+    if (provider.loggedIn) form["userID"] = provider.user.id.toString();
 
     form["gameID"] = provider.gameID.toString();
     form["clientSecret"] = provider.clientSecret;
