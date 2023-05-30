@@ -1,0 +1,7 @@
+builders:
+  playur_builder:
+    import: "package:playur_flutter_plugin/playur_plugin/generator.dart"
+    builder_factories: ["enumGenerator"]
+    build_extensions: {'$package$': ['lib/playur_plugin/.generated.dart']}
+    build_to: source
+    auto_apply: root_package

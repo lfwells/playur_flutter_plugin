@@ -2,17 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:playur_flutter_plugin/playur_plugin/playur_plugin.dart';
 import 'package:playur_flutter_plugin/playur_plugin/log.dart';
 import 'package:playur_flutter_plugin/playur_plugin/provider.dart';
 import 'package:provider/provider.dart';
 
 class PlayURAPI
 {
-  /// <summary>The base url of the server instance through which all Rest requests will go.
-  /// Should point to the "api" sub-directory on the server.
-  /// </summary>
-  static const String serverURL = "https://playur.io/api/";
-
   /// <summary>
   /// Standard HTTP GET request.
   /// Used for requesting information FROM the server.
@@ -35,10 +31,10 @@ class PlayURAPI
       }
     }
 
-    var url = "$serverURL$page/$kvp";
+    var url = "${PlayURPlugin.serverURL}$page/$kvp";
 
     if (page.indexOf(".php") > 0) {
-      url = serverURL + page + kvp;
+      url = PlayURPlugin.serverURL + page + kvp;
     }
     if (debugOutput) PlayURPluginLogger.log("GET $url");
 
@@ -101,7 +97,7 @@ class PlayURAPI
       //jsonOut[kvp.Key] = WebUtility.HtmlEncode(kvp.Value);
     }
 
-    var url = "$serverURL$page/";//the slash on the end is actually important....
+    var url = "${PlayURPlugin.serverURL}$page/";//the slash on the end is actually important....
     if (debugOutput) PlayURPluginLogger.log("POST $url");
 
     var response = await http.post(Uri.parse(url), body: form, encoding: Encoding.getByName("utf-8"));
@@ -160,7 +156,7 @@ class PlayURAPI
       //jsonOut[kvp.Key] = WebUtility.HtmlEncode(kvp.Value);
     }
 
-    var url = "$serverURL$page/";//the slash on the end is actually important....
+    var url = "${PlayURPlugin.serverURL}$page/";//the slash on the end is actually important....
     if (debugOutput) PlayURPluginLogger.log("POST $url");
 
     var response = await http.put(Uri.parse(url), body: form, encoding: Encoding.getByName("utf-8"));
@@ -230,12 +226,26 @@ class PlayURAPI
   /// <returns>A new Dictionary suitable for use as a <c>form parameter</c>.</returns>
   static Map<String, String> getWWWFormWithProvider(PlayURProvider provider)
   {
+
+    return getWWWFormFromValues(userID: provider.loggedIn ? provider.user.id.toString() : null, gameID: provider.gameID, clientSecret: provider.clientSecret );
+  }
+
+  /// <summary>
+  /// Helper function for building the <c>form</c> paramaters to the <see cref="Rest"/> class functions.
+  /// Use this because it will automatically populate with the userID (from <see cref="PlayURPlugin.instance.user.id" />)
+  /// and gameID (from <see cref="PlayURPlugin.instance.gameID"/>).
+  /// Uses the terminology "WWWForm" because this class previously used <see cref="WWWForm"/> objects.
+  /// </summary>
+  /// <returns>A new Dictionary suitable for use as a <c>form parameter</c>.</returns>
+  static Map<String, String> getWWWFormFromValues({ String? userID, required int gameID, required String clientSecret })
+  {
+
     var form = <String, String>{};
 
-    if (provider.loggedIn) form["userID"] = provider.user.id.toString();
+    if (userID != null) form["userID"] = userID;
 
-    form["gameID"] = provider.gameID.toString();
-    form["clientSecret"] = provider.clientSecret;
+    form["gameID"] = gameID.toString();
+    form["clientSecret"] = clientSecret;
 
     return form;
   }
