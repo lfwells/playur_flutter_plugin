@@ -30,7 +30,7 @@ class PlayURSample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (context) => PlayURProvider(context, gameID: 20, clientSecret: "dunno"),
+    return ChangeNotifierProvider(create: (context) => PlayURProvider(context),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('PlayUR Sample'),

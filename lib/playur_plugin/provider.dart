@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:playur_flutter_plugin/playur_plugin/generated/token.dart';
 
 import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/api.dart';
@@ -12,8 +13,8 @@ import 'package:playur_flutter_plugin/playur_plugin/log.dart';
 
 class PlayURProvider extends ChangeNotifier
 {
-  final int gameID;
-  final String clientSecret;
+  late final int gameID;
+  late final String clientSecret;
 
   bool loggedIn = false;
   bool experimentFull = false;
@@ -22,8 +23,12 @@ class PlayURProvider extends ChangeNotifier
   late PlayURConfiguration configuration;
   late PlayURUser user;
 
-  PlayURProvider(BuildContext context, { required this.gameID, required this.clientSecret })
+  PlayURProvider(BuildContext context)
   {
+    //read in the game id and client secret from token.dart
+    gameID = PlayURToken.gameID;
+    clientSecret = PlayURToken.clientSecret;
+
     // TODO: use a rest queue
     // StartCoroutine(Rest.Queue.StartProcessing());
 
@@ -184,7 +189,6 @@ class PlayURProvider extends ChangeNotifier
         var columnAsEnum = AnalyticsColumn.fromValue(int.parse(column["id"]));
         configuration.analyticsColumnsOrder.add(columnAsEnum);
       }
-      print(configuration.analyticsColumnsOrder);
 
       //TODO: user class
       /*

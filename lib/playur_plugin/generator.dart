@@ -13,12 +13,13 @@ class EnumGenerator implements Builder {
   @override
   final buildExtensions = const {
     r'$package$': [
+      'lib/playur_plugin/generated/token.dart',
       'lib/playur_plugin/generated/action.dart',
       'lib/playur_plugin/generated/element.dart',
       'lib/playur_plugin/generated/experiment.dart',
       'lib/playur_plugin/generated/experiment_group.dart',
       'lib/playur_plugin/generated/analytics_column.dart',
-      //TODO: 'lib/playur_plugin/generated/parameter.dart'
+      'lib/playur_plugin/generated/parameter.dart'
     ]
   };
   @override
@@ -35,12 +36,36 @@ class EnumGenerator implements Builder {
       var fileName = element.pathSegments.last;
       var name = fileName.substring(0, fileName.length - 5);
 
-      //convert the name from snake_case to CamelCase
-      name = name.split('_').map((e) => capitalize(e)).join();
+      if (name == "token")
+      {
+        //generate a dart file with the game id and secret as const values in a class
+        await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/token.dart'), generateTokenFile(gameID, clientSecret));
+      }
+      else if (name == "parameter")
+      {
+        //TODO: code-gen parameter consts
+      }
+      else
+      {
+        //convert the name from snake_case to CamelCase
+        name = name.split('_').map((e) => capitalize(e)).join();
 
-      var values = await getValues(name, gameID, clientSecret);
-      await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/$fileName'), generateEnum(name, values));
+        var values = await getValues(name, gameID, clientSecret);
+        await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/$fileName'), generateEnum(name, values));
+      }
     });
+  }
+
+  String generateTokenFile(int gameID, String clientSecret) {
+    return """
+// ignore_for_file: constant_identifier_names
+// note: this file should not be committed to source control
+
+class PlayURConfig
+{
+  static const int gameID = $gameID;
+  static const String clientSecret = '$clientSecret';
+}""";
   }
 
   Future<Map<String, int>> getValues(String name, int gameID, String clientSecret) async
@@ -66,6 +91,7 @@ class EnumGenerator implements Builder {
     var sb = StringBuffer();
     sb.writeln("""
 // ignore_for_file: camel_case_types, constant_identifier_names
+// note: this file should not be committed to source control
 
 enum ${capitalize(name)} 
 {
