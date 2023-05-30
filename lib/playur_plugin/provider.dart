@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/api.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/configuration.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/user.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/analytics_column.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment_group.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart' as element;
@@ -161,27 +162,29 @@ class PlayURProvider extends ChangeNotifier
       var parameters = result.result["parameters"];
       configuration.parameters = json.decode(json.encode(parameters)) as Map<String, dynamic>;
 
-      //TODO: enums
       configuration.analyticsColumnsOrder = [];
-      print(result.result["analyticsColumns"]);
-      /*var inColumns = [];
-      foreach (var column in result.result["analyticsColumns"])
+      var inColumns = [];
+      for (var column in result.result["analyticsColumns"] as List<dynamic>)
       {
-        inColumns.Add(column.Value);
+        inColumns.add(Map<String, dynamic>.from(column));
       }
-      inColumns.Sort((a,b) =>
+      inColumns.sort((a,b)
       {
-        if (a["sort"].AsInt == b["sort"].AsInt)
+        int aSort = int.parse(a["sort"]);
+        int bSort = int.parse(b["sort"]);
+        if (aSort == bSort)
         {
-          return a["id"].AsInt.CompareTo(b["id"].AsInt);
+          return int.parse(a["id"]).compareTo(int.parse(b["id"]));
         }
-        return a["sort"].AsInt.CompareTo(b["sort"].AsInt);
+        return aSort.compareTo(bSort);
       });
-      foreach (var column in inColumns)
+
+      for (var column in inColumns)
       {
-      var columnAsEnum = (AnalyticsColumn)(column["id"].AsInt);
-      configuration.analyticsColumnsOrder.Add(columnAsEnum);
-      }*/
+        var columnAsEnum = AnalyticsColumn.fromValue(int.parse(column["id"]));
+        configuration.analyticsColumnsOrder.add(columnAsEnum);
+      }
+      print(configuration.analyticsColumnsOrder);
 
       //TODO: user class
       /*
