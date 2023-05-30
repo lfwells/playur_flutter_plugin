@@ -64,11 +64,15 @@ class EnumGenerator implements Builder {
   String generateEnum(String name, Map<String, int> values)
   {
     var sb = StringBuffer();
-    sb.writeln("// ignore_for_file: camel_case_types, constant_identifier_names\n\nclass ${capitalize(name)} {");
+    sb.writeln("// ignore_for_file: camel_case_types, constant_identifier_names\n\enum ${capitalize(name)} {");
     values.forEach((key, value) {
-      sb.writeln("\tstatic const $key = $value;");
+      sb.writeln("\t$key($value),");
     });
-    sb.writeln("}");
+    sb.writeln("""
+  ;
+  const $name(this.value);
+  final int value;
+}""");
     return sb.toString();
   }
 
