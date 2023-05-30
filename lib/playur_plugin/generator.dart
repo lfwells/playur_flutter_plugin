@@ -64,7 +64,13 @@ class EnumGenerator implements Builder {
   String generateEnum(String name, Map<String, int> values)
   {
     var sb = StringBuffer();
-    sb.writeln("// ignore_for_file: camel_case_types, constant_identifier_names\n\enum ${capitalize(name)} {");
+    sb.writeln("""
+// ignore_for_file: camel_case_types, constant_identifier_names
+
+enum ${capitalize(name)} 
+{
+  __Invalid(-1, "__Invalid"),
+  """);
     values.forEach((key, value) {
       var keySafe = _platformNameToValidEnumValue(key);
       if (keySafe == name) {
@@ -77,6 +83,10 @@ class EnumGenerator implements Builder {
   const $name(this.value, this.name);
   final int value;
   final String name;
+  
+  factory $name.fromValue(int value) {
+    return $name.values.firstWhere((element) => element.value == value, orElse: () => $name.__Invalid);
+  }
 }""");
     return sb.toString();
   }
@@ -87,7 +97,11 @@ class EnumGenerator implements Builder {
 
   String _platformNameToValidEnumValue(String input)
   {
+    //remove special characters except spaces
+    input = input.replaceAll(RegExp(r'[^a-zA-Z0-9 ]'), '');
+
     //capitalize each word and then remove spaces
     return input.split(' ').map((e) => capitalize(e)).join();
+
   }
 }
