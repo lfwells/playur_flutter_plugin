@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/api.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/configuration.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/user.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/analytics_column.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/experiment_group.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart' as e;
 import 'package:playur_flutter_plugin/playur_plugin/log.dart';
 
 class PlayURProvider extends ChangeNotifier
@@ -145,48 +149,42 @@ class PlayURProvider extends ChangeNotifier
       configuration.branch = result.result["branch"];
       configuration.buildID = int.tryParse(result.result["buildID"])!;
 
-      //TODO: enums
-      /*
-      configuration.experiment = (Experiment)configuration.experimentID;
-      configuration.experimentGroup = (ExperimentGroup)configuration.experimentGroupID;
-       */
+      configuration.experiment = Experiment.fromValue(configuration.experimentID);
+      configuration.experimentGroup = ExperimentGroup.fromValue(configuration.experimentGroupID);
 
-      //TODO: enums
-      /*
-      var elements = result["elements"];
-
-
-
-      configuration.elements = new List<Element>();
-      foreach (var element in elements)
+      var elements = result.result["elements"];
+      configuration.elements = [];
+      for (var e in elements as List<dynamic>)
       {
-      configuration.elements.Add((Element)element.Value["id"].AsInt);
-      }*/
+        configuration.elements.add(e.Element.fromValue(int.parse(e["id"])));
+      }
 
       var parameters = result.result["parameters"];
       configuration.parameters = json.decode(json.encode(parameters)) as Map<String, dynamic>;
 
-      //TODO: enums
-      /*
-      configuration.analyticsColumnsOrder = new List<AnalyticsColumn>();
-      var inColumns = new List<JSONNode>();
-      foreach (var column in result["analyticsColumns"])
+      configuration.analyticsColumnsOrder = [];
+      var inColumns = [];
+      for (var column in result.result["analyticsColumns"] as List<dynamic>)
       {
-      inColumns.Add(column.Value);
+        inColumns.add(Map<String, dynamic>.from(column));
       }
-      inColumns.Sort((a,b) =>
+      inColumns.sort((a,b)
       {
-      if (a["sort"].AsInt == b["sort"].AsInt)
-      {
-      return a["id"].AsInt.CompareTo(b["id"].AsInt);
-      }
-      return a["sort"].AsInt.CompareTo(b["sort"].AsInt);
+        int aSort = int.parse(a["sort"]);
+        int bSort = int.parse(b["sort"]);
+        if (aSort == bSort)
+        {
+          return int.parse(a["id"]).compareTo(int.parse(b["id"]));
+        }
+        return aSort.compareTo(bSort);
       });
-      foreach (var column in inColumns)
+
+      for (var column in inColumns)
       {
-      var columnAsEnum = (AnalyticsColumn)(column["id"].AsInt);
-      configuration.analyticsColumnsOrder.Add(columnAsEnum);
-      }*/
+        var columnAsEnum = AnalyticsColumn.fromValue(int.parse(column["id"]));
+        configuration.analyticsColumnsOrder.add(columnAsEnum);
+      }
+      print(configuration.analyticsColumnsOrder);
 
       //TODO: user class
       /*
@@ -227,6 +225,40 @@ class PlayURProvider extends ChangeNotifier
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
+
+
+  /// <summary>Gets all enabled Game Elements from the current configuration.</summary>
+  /// <returns>a list of the active Game Elements.</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if configuration is not previously obtained</exception>
+  List<e.Element> listElements()
+  {
+    if (hasConfiguration == false)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw new ConfigurationNotReadyException();
+    }
+    return configuration.elements;
+  }
+
+  /// <summary>Query if a certain element is enabled or not</summary>
+  /// <returns>true if the given element is enabled.</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if configuration is not previously obtained</exception>
+  bool elementEnabled(e.Element element)
+  {
+    if (hasConfiguration == false)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw new ConfigurationNotReadyException();
+    }
+    return configuration.elements.contains(element);
+  }
+
+
+
+
+
 
   //TODO: docs
   bool paramExists(String key)
