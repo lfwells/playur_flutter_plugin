@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:playur_flutter_plugin/playur_plugin/generated/token.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/playur_config.dart';
 
 import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/api.dart';
@@ -26,8 +26,8 @@ class PlayURProvider extends ChangeNotifier
   PlayURProvider(BuildContext context)
   {
     //read in the game id and client secret from token.dart
-    gameID = PlayURToken.gameID;
-    clientSecret = PlayURToken.clientSecret;
+    gameID = PlayURConfig.gameID;
+    clientSecret = PlayURConfig.clientSecret;
 
     // TODO: use a rest queue
     // StartCoroutine(Rest.Queue.StartProcessing());

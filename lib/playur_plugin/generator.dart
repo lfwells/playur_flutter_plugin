@@ -13,7 +13,7 @@ class EnumGenerator implements Builder {
   @override
   final buildExtensions = const {
     r'$package$': [
-      'lib/playur_plugin/generated/token.dart',
+      'lib/playur_plugin/generated/playur_config.dart',
       'lib/playur_plugin/generated/action.dart',
       'lib/playur_plugin/generated/element.dart',
       'lib/playur_plugin/generated/experiment.dart',
@@ -39,7 +39,7 @@ class EnumGenerator implements Builder {
       if (name == "token")
       {
         //generate a dart file with the game id and secret as const values in a class
-        await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/token.dart'), generateTokenFile(gameID, clientSecret));
+        await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/playur_config.dart'), generateTokenFile(gameID, clientSecret));
       }
       else if (name == "parameter")
       {
