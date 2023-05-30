@@ -66,12 +66,13 @@ class EnumGenerator implements Builder {
     var sb = StringBuffer();
     sb.writeln("// ignore_for_file: camel_case_types, constant_identifier_names\n\enum ${capitalize(name)} {");
     values.forEach((key, value) {
-      sb.writeln("\t${_platformNameToValidEnumValue(key)}($value),");
+      sb.writeln("\t${_platformNameToValidEnumValue(key)}($value, \"$key\"),");
     });
     sb.writeln("""
   ;
-  const $name(this.value);
+  const $name(this.value, this.name);
   final int value;
+  final String name;
 }""");
     return sb.toString();
   }
