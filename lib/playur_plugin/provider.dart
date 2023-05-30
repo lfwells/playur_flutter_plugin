@@ -406,7 +406,9 @@ class PlayURProvider extends ChangeNotifier
   }
 
   //now all of these again but array versions
+  // ignore: constant_identifier_names
   static const String PARAM_LIST_SPLIT_DELIMITER = "|||";
+  // ignore: constant_identifier_names
   static const String PARAM_LIST_KEY_APPEND = "[]";
 
   //TODO: docs

@@ -20,10 +20,9 @@ class _PlayURLoginScreenState extends State<PlayURLoginScreen>
   @override
   Widget build(BuildContext context) {
 
-    PlayURProvider provider;
     try
     {
-      provider = Provider.of<PlayURProvider>(context, listen: false);
+      Provider.of<PlayURProvider>(context, listen: false);
     }
     catch (e)
     {

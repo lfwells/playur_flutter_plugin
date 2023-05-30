@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class PlayURPluginLogger
 {
+// ignore: constant_identifier_names
 static const String _TAG = "[PLAYUR]";
 
   static void log(String message)
