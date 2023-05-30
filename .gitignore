@@ -43,4 +43,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-playur_config.yaml
+*playur_config.yaml
