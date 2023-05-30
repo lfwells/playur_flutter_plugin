@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
 import 'package:playur_flutter_plugin/playur_plugin/login.dart';
 import 'package:playur_flutter_plugin/playur_plugin/provider.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +46,9 @@ class PlayURSample extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
+                PlayURExperimentTest(),
                 PlayURParameterText(parameter: "MessageToUser",),
-                PlayURRandomParameterSample(parameter: "Test")
+                PlayURRandomParameterSample(parameter: "Test"),
               ],
             ),
           )
@@ -55,6 +57,21 @@ class PlayURSample extends StatelessWidget {
     );
   }
 }
+
+class PlayURExperimentTest extends StatelessWidget {
+  const PlayURExperimentTest({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PlayURProvider>(
+      builder: (context, playUR, _) {
+        if (!playUR.hasConfiguration) return const Text("loading");
+        return Text("Experiment: ${playUR.configuration.experiment} ${playUR.configuration.experiment.name}\n check: ${playUR.configuration.experiment == Experiment.TestExperiment}");
+      }
+    );
+  }
+}
+
 
 class PlayURRandomParameterSample extends StatefulWidget {
   const PlayURRandomParameterSample({

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/api.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/configuration.dart';
 import 'package:playur_flutter_plugin/playur_plugin/classes/user.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/experiment_group.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart' as element;
 import 'package:playur_flutter_plugin/playur_plugin/log.dart';
 
 class PlayURProvider extends ChangeNotifier
@@ -145,42 +148,34 @@ class PlayURProvider extends ChangeNotifier
       configuration.branch = result.result["branch"];
       configuration.buildID = int.tryParse(result.result["buildID"])!;
 
-      //TODO: enums
-      /*
-      configuration.experiment = (Experiment)configuration.experimentID;
-      configuration.experimentGroup = (ExperimentGroup)configuration.experimentGroupID;
-       */
+      configuration.experiment = Experiment.fromValue(configuration.experimentID);
+      configuration.experimentGroup = ExperimentGroup.fromValue(configuration.experimentGroupID);
 
-      //TODO: enums
-      /*
-      var elements = result["elements"];
-
-
-
-      configuration.elements = new List<Element>();
-      foreach (var element in elements)
+      var elements = result.result["elements"];
+      configuration.elements = [];
+      for (var e in elements as List<dynamic>)
       {
-      configuration.elements.Add((Element)element.Value["id"].AsInt);
-      }*/
+        configuration.elements.add(element.Element.fromValue(int.parse(e["id"])));
+      }
 
       var parameters = result.result["parameters"];
       configuration.parameters = json.decode(json.encode(parameters)) as Map<String, dynamic>;
 
       //TODO: enums
-      /*
-      configuration.analyticsColumnsOrder = new List<AnalyticsColumn>();
-      var inColumns = new List<JSONNode>();
-      foreach (var column in result["analyticsColumns"])
+      configuration.analyticsColumnsOrder = [];
+      print(result.result["analyticsColumns"]);
+      /*var inColumns = [];
+      foreach (var column in result.result["analyticsColumns"])
       {
-      inColumns.Add(column.Value);
+        inColumns.Add(column.Value);
       }
       inColumns.Sort((a,b) =>
       {
-      if (a["sort"].AsInt == b["sort"].AsInt)
-      {
-      return a["id"].AsInt.CompareTo(b["id"].AsInt);
-      }
-      return a["sort"].AsInt.CompareTo(b["sort"].AsInt);
+        if (a["sort"].AsInt == b["sort"].AsInt)
+        {
+          return a["id"].AsInt.CompareTo(b["id"].AsInt);
+        }
+        return a["sort"].AsInt.CompareTo(b["sort"].AsInt);
       });
       foreach (var column in inColumns)
       {

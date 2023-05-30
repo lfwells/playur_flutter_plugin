@@ -1,4 +1,5 @@
 import 'package:playur_flutter_plugin/playur_plugin/generated/analytics_column.dart';
+import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment_group.dart';
 
@@ -32,8 +33,7 @@ class PlayURConfiguration
   /// <summary>
   /// List of active Game Elements for this current configuration. If an element is not in this list, it is not active.
   /// </summary>
-  // TODO: enums
-  //late List<Element> elements;
+  late List<Element> elements;
 
   /// <summary>
   /// Key-Value-Pairs of the enabled Parameters for this current configuration.
