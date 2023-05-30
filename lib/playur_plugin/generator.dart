@@ -36,7 +36,7 @@ class EnumGenerator implements Builder {
       var fileName = element.pathSegments.last;
       var name = fileName.substring(0, fileName.length - 5);
 
-      if (name == "token")
+      if (name == "playur_config")
       {
         //generate a dart file with the game id and secret as const values in a class
         await buildStep.writeAsString(AssetId(buildStep.inputId.package, 'lib/playur_plugin/generated/playur_config.dart'), generateTokenFile(gameID, clientSecret));
