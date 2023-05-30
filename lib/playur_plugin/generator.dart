@@ -66,7 +66,7 @@ class EnumGenerator implements Builder {
     var sb = StringBuffer();
     sb.writeln("// ignore_for_file: camel_case_types, constant_identifier_names\n\enum ${capitalize(name)} {");
     values.forEach((key, value) {
-      sb.writeln("\t$key($value),");
+      sb.writeln("\t${_platformNameToValidEnumValue(key)}($value),");
     });
     sb.writeln("""
   ;
@@ -78,4 +78,11 @@ class EnumGenerator implements Builder {
 
   //capitalize a string
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+
+  String _platformNameToValidEnumValue(String input)
+  {
+    //capitalize each word and then remove spaces
+    return input.split(' ').map((e) => capitalize(e)).join();
+  }
 }
