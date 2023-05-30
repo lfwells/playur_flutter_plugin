@@ -7,7 +7,7 @@ import 'package:playur_flutter_plugin/playur_plugin/classes/user.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/analytics_column.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment_group.dart';
-import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart' as element;
+import 'package:playur_flutter_plugin/playur_plugin/generated/element.dart' as e;
 import 'package:playur_flutter_plugin/playur_plugin/log.dart';
 
 class PlayURProvider extends ChangeNotifier
@@ -156,7 +156,7 @@ class PlayURProvider extends ChangeNotifier
       configuration.elements = [];
       for (var e in elements as List<dynamic>)
       {
-        configuration.elements.add(element.Element.fromValue(int.parse(e["id"])));
+        configuration.elements.add(e.Element.fromValue(int.parse(e["id"])));
       }
 
       var parameters = result.result["parameters"];
@@ -225,6 +225,40 @@ class PlayURProvider extends ChangeNotifier
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
+
+
+  /// <summary>Gets all enabled Game Elements from the current configuration.</summary>
+  /// <returns>a list of the active Game Elements.</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if configuration is not previously obtained</exception>
+  List<e.Element> listElements()
+  {
+    if (hasConfiguration == false)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw new ConfigurationNotReadyException();
+    }
+    return configuration.elements;
+  }
+
+  /// <summary>Query if a certain element is enabled or not</summary>
+  /// <returns>true if the given element is enabled.</returns>
+  /// <exception cref="ConfigurationNotReadyException">thrown if configuration is not previously obtained</exception>
+  bool elementEnabled(e.Element element)
+  {
+    if (hasConfiguration == false)
+    {
+      //TODO: exceptions
+      throw Exception("ConfigurationNotReadyException");
+      //throw new ConfigurationNotReadyException();
+    }
+    return configuration.elements.contains(element);
+  }
+
+
+
+
+
 
   //TODO: docs
   bool paramExists(String key)
