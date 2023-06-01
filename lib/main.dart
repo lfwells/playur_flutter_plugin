@@ -9,7 +9,10 @@ import 'dart:math' as math;
 import 'package:js/js.dart' as js;
 import 'package:js/js_util.dart' as js_util;
 
+import 'package:url_strategy/url_strategy.dart';
+
 void main() {
+  setPathUrlStrategy(); //TODO: can I call this from anywhere?
   runApp(const MyApp());
 }
 
