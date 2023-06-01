@@ -43,7 +43,29 @@
           },
         });
       });
+
+      // Sets up a channel to JS-interop with Flutter
+(function() {
+  "use strict";
+  // This function will be called from Flutter when it prepares the JS-interop.
+  window._stateSet = function () {
+    console.log("_stateSet())");
+    window._stateSet = function () {
+      console.log("Call _stateSet only once!");
+    };
+
+    // The state of the flutter app
+    let appState = window._appState;
+
+    let incrementButton = document.querySelector("#login");
+    incrementButton.addEventListener("click", (event) => {
+      appState.login("lindsay", "");
+    });
+  };
+}());
     </script>
+
+  <button id="login">Login</button>
 <script src="js/demo-js-interop.js" defer></script>
 <script src="js/demo-css-fx.js" defer></script>
 </body>

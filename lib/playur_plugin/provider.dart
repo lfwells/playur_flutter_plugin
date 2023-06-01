@@ -16,6 +16,7 @@ class PlayURProvider extends ChangeNotifier
   late final int gameID;
   late final String clientSecret;
 
+  bool loggingIn = false;
   bool loggedIn = false;
   bool experimentFull = false;
   bool hasConfiguration = false;
@@ -51,7 +52,10 @@ class PlayURProvider extends ChangeNotifier
   // TODO: implement login
   Future<ServerCallback> login(BuildContext context, String username, String password, { bool returnLogin = false }) async
   {
-    var form = PlayURAPI.getWWWForm(context);
+    loggingIn = true;
+    notifyListeners();
+
+    var form = PlayURAPI.getWWWFormFromValues(gameID: gameID, clientSecret: clientSecret);
     form["username"] = username;
     form["password"] = password;
 
@@ -70,9 +74,11 @@ class PlayURProvider extends ChangeNotifier
       StartCoroutine(PlayerPrefs.PeriodicallySavePlayerPrefs());
       */
       _configuration();
-
-      notifyListeners();
     }
+
+    loggingIn = false;
+    notifyListeners();
+
     return result;
   }
 

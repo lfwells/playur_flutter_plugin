@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:playur_flutter_plugin/playur_plugin/generated/experiment.dart';
 import 'package:playur_flutter_plugin/playur_plugin/login.dart';
 import 'package:playur_flutter_plugin/playur_plugin/provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
+
+import 'package:js/js.dart' as js;
+import 'package:js/js_util.dart' as js_util;
 
 void main() {
   runApp(const MyApp());
@@ -25,27 +29,68 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PlayURSample extends StatelessWidget {
+@js.JSExport()
+class PlayURSample extends StatefulWidget {
   const PlayURSample({Key? key}) : super(key: key);
 
   @override
+  State<PlayURSample> createState() => _PlayURSampleState();
+}
+
+class _PlayURSampleState extends State<PlayURSample>
+{
+  bool initializing = true;
+  String? username;
+  String? password;
+
+  @override
+  void initState()
+  {
+    super.initState();
+    final export = js_util.createDartExport(this);
+    js_util.setProperty(js_util.globalThis, '_appState', export);
+    js_util.callMethod<void>(js_util.globalThis, '_stateSet', []);
+
+    //if (!kDebugMode)
+    {
+      //loggingIn = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (context) => PlayURProvider(context),
+    print("build $initializing");
+    if (initializing)
+    {
+      return Container(
+        color: Colors.blueGrey,
+        child: const Center(child:CircularProgressIndicator(color: Colors.white)));
+    }
+    return ChangeNotifierProvider(create: (context) {
+        var model = PlayURProvider(context);
+      if (username != null && password != null) {
+          model.login(context, username!, password!);
+        }
+        return model;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('PlayUR Sample'),
         ),
         body: Consumer<PlayURProvider>(
           builder: (context, playUR, child) {
+            if (playUR.loggingIn) {
+              return const Center(child: CircularProgressIndicator());
+            }
             if (playUR.loggedIn == false) {
               return const PlayURLoginScreen();
             }
             return child!;
           },
-          child: Center(
+          child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 PlayURExperimentTest(),
                 PlayURParameterText(parameter: "MessageToUser",),
                 PlayURRandomParameterSample(parameter: "Test"),
@@ -55,6 +100,15 @@ class PlayURSample extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @js.JSExport()
+  void login(String username, String password) {
+    setState(() {
+      initializing = false;
+      this.username = username;
+      this.password = password;
+    });
   }
 }
 
